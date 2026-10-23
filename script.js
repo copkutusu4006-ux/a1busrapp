@@ -507,21 +507,3 @@ function ornekCumleyiOku() {
         console.error(e);
     }
 }
-
-// Not Kutucuğu İşlevleri
-const btnNotAc = document.getElementById('btn-not-ac');
-const btnNotKapat = document.getElementById('btn-not-kapat');
-const notKutusu = document.getElementById('not-kutusu');
-const notAlani = document.getElementById('not-alani');
-
-// "Not Al" butonuna basınca kutuyu aç
-btnNotAc.addEventListener('click', () => {
-    notKutusu.style.display = 'block';
-    btnNotAc.style.display = 'none'; // Açıkken butonu gizle (isteğe bağlı)
-});
-
-// "Kapat" butonuna basınca kutuyu kapat
-btnNotKapat.addEventListener('click', () => {
-    notKutusu.style.display = 'none';
-    btnNotAc.style.display = 'block';
-});
