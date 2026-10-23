@@ -70,6 +70,17 @@
 
         <!-- 4. Flashcard (Kelime Çalışma) Ekranı -->
         <div id="flashcard-screen" style="display: none;">
+            
+            <!-- Not Kutucuğunu Açma Butonu -->
+            <button id="btn-not-ac" style="margin-bottom: 10px; background-color: #ffc107; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">📝 Not Al</button>
+
+            <!-- Not Kutucuğu Alanı (Başlangıçta Gizli) -->
+            <div id="not-kutusu" style="display: none; background: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <h4 style="margin-top: 0; color: #856404;">Çalışma Notları</h4>
+                <textarea id="not-alani" placeholder="Buraya notlarını yazabilirsin..." style="width: 100%; height: 80px; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; resize: vertical; box-sizing: border-box;"></textarea>
+                <button id="btn-not-kapat" style="margin-top: 8px; background-color: #6c757d; color: white; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer;">Kapat</button>
+            </div>
+
             <div class="flashcard-container">
                 <div class="flashcard">
 
