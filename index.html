@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Büşrapp</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app-container">
+
+        <!-- Profil Header -->
+        <div id="profile-header">
+            <div class="profile-info">
+                <div class="avatar">
+                    <img src="b.jpeg" alt="Profil Fotoğrafı">
+                </div>
+
+                <div class="profile-texts">
+                    <h3>Büşbüş</h3>
+                </div>
+            </div>
+
+            <button id="btn-profil-git">İstatistiklere Git</button>
+        </div>
+
+        <div id="custom-alert" style="display:none;"></div>
+
+        <!-- 1. Karşılama Ekranı (Ana Sayfa) -->
+        <div id="landing-screen">
+            <h1>A1 Almanca</h1>
+            <button class="menu-btn" id="btn-goto-kelimeler">Kelimeler</button>
+            <button class="menu-btn" id="btn-goto-okuma">Okuma</button>
+        </div>
+
+        <!-- 2. Kelimeler Kategori Menüsü -->
+        <div id="main-menu" style="display: none;">
+            <div class="menu-stats">
+                <div class="stat-box left" id="toplam-kelime">Toplam: 0</div>
+                <div class="stat-box right" id="biliyorum-sayac">0/0</div>
+            </div>
+
+            <h1>Kategori Seç</h1>
+            <button class="menu-btn" id="btn-isimler">İsimler</button>
+            <button class="menu-btn" id="btn-fiiller">Fiiller</button>
+            <button class="menu-btn" id="btn-karisik">Karışık</button>
+            <button class="menu-btn btn-sifirla" id="btn-sifirla">Sıfırla</button>
+            <button class="menu-btn" id="btn-ana-sayfaya-don" style="background-color: #6c757d; margin-top: 10px;">Ana Sayfaya Dön</button>
+        </div>
+
+        <!-- 3. Profil / İstatistik Ekranı -->
+        <div id="profil-screen" style="display: none;">
+            <h2>İstatistikler</h2>
+            <p id="profil-ogrenilen-sayi">0 Kelime Öğrenildi</p>
+
+            <div class="profil-liste-kapsayici">
+                <table class="profil-tablosu">
+                    <thead>
+                        <tr>
+                            <th>Almanca</th>
+                            <th>Türkçe</th>
+                        </tr>
+                    </thead>
+                    <tbody id="profil-kelime-listesi"></tbody>
+                </table>
+            </div>
+
+            <button id="btn-profil-geri">Kapat</button>
+        </div>
+
+        <!-- 4. Flashcard (Kelime Çalışma) Ekranı -->
+        <div id="flashcard-screen" style="display: none;">
+            <div class="flashcard-container">
+                <div class="flashcard">
+
+                    <div class="card-front">
+                        <div class="card-face-content">
+                            <h2 id="card-german">Haus</h2>
+                            <p id="card-plural" class="plural-text" style="display: none;"></p>
+                            <p class="hint">(Kartı çevirmek için dokun)</p>
+                        </div>
+                        <button class="btn-ses btn-seslendir">🔊 Dinle</button>
+                    </div>
+
+                    <div class="card-back">
+                        <div class="card-face-content">
+                            <div id="content-wrapper">
+
+                                <div id="template-isim">
+                                    <h2 id="card-turkish">Ev</h2>
+                                    <p id="card-artikel" class="artikel">das</p>
+                                </div>
+
+                                <div id="template-fiil" style="display: none;">
+                                    <h2 id="fiil-turkish">Yapmak</h2>
+                                    <div class="fiil-grid">
+                                        <div class="zamirler">
+                                            <p>ich</p>
+                                            <p>du</p>
+                                            <p>er/sie/es</p>
+                                            <p>wir</p>
+                                            <p>ihr</p>
+                                            <p>sie/Sie</p>
+                                        </div>
+                                        <div class="cekimler" id="fiil-cekimleri"></div>
+                                        <div class="mavi-cizgi"></div>
+                                        <div class="gecmis-zaman">
+                                            <p class="label">Geçmiş Zaman</p>
+                                            <p id="fiil-gecmis" class="past-val"></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div id="example-container">
+                                <p id="card-example" class="example-de"></p>
+                                <p id="card-example-tr" class="example-tr"></p>
+                            </div>
+                        </div>
+
+                        <div class="card-ses-buttons">
+                            <button class="btn-ses btn-ornek-oku">🔊 Örnek Cümleyi Oku</button>
+                            <button class="btn-ses btn-seslendir">🔊 Dinle</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-bilmiyorum">Tekrar Et</button>
+                <button class="btn-biliyorum">Öğrendim</button>
+            </div>
+
+            <button id="btn-geri">Kategori Menüsüne Dön</button>
+        </div>
+
+    </div>
+
+    <script src="kelimeler.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
