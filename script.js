@@ -1,5 +1,5 @@
 // =========================================
-// Almanca Flashcard - script.js (Mobil Ses & Mobil Düzen Destekli)
+// Almanca Flashcard - script.js (Buton Çakışması Giderilmiş Sürüm)
 // =========================================
 
 const STORAGE_KEY = 'almanca_flashcard_v1';
@@ -14,6 +14,7 @@ let mevcutVoices = [];
 const landingScreen = document.getElementById('landing-screen');
 const mainMenu = document.getElementById('main-menu');
 const flashcardScreen = document.getElementById('flashcard-screen');
+const cardContainer = document.querySelector('.flashcard-container');
 const cardInner = document.querySelector('.flashcard');
 
 const cardGerman = document.getElementById('card-german');
@@ -51,7 +52,6 @@ function init() {
 }
 
 function butonlariBagla() {
-    // Mobil Tarayıcılarda Ses Motoru Kilidini Açma (Dokunma Olayı)
     document.body.addEventListener('touchstart', mobilSesKilidiniAc, { once: true });
     document.body.addEventListener('click', mobilSesKilidiniAc, { once: true });
 
@@ -68,10 +68,15 @@ function butonlariBagla() {
 
     document.getElementById('btn-geri').addEventListener('click', kelimelerMenuyeGit);
 
-    // Ses Butonları Olayları
+    // SES BUTONLARI - Tıklama olayının karta sıçramasını engelliyoruz (stopPropagation)
     const btnSeslendirButonlari = document.querySelectorAll('.btn-seslendir');
     btnSeslendirButonlari.forEach((buton) => {
         buton.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            kelimeyiOku();
+        });
+        buton.addEventListener('touchend', (e) => {
             e.preventDefault();
             e.stopPropagation();
             kelimeyiOku();
@@ -81,6 +86,11 @@ function butonlariBagla() {
     const btnOrnekOkuButonu = document.querySelector('.btn-ornek-oku');
     if (btnOrnekOkuButonu) {
         btnOrnekOkuButonu.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            ornekCumleyiOku();
+        });
+        btnOrnekOkuButonu.addEventListener('touchend', (e) => {
             e.preventDefault();
             e.stopPropagation();
             ornekCumleyiOku();
@@ -114,9 +124,13 @@ function butonlariBagla() {
         });
     }
 
-    if (cardInner) {
-        cardInner.addEventListener('click', () => {
-            cardInner.classList.toggle('flipped');
+    // KART ÇEVİRME - Sadece ana konteynıra tıklandığında dönecek
+    if (cardContainer) {
+        cardContainer.addEventListener('click', (e) => {
+            // Eğer tıklanan eleman bir buton veya ses alanı değilse kartı çevir
+            if (!e.target.closest('button')) {
+                cardInner.classList.toggle('flipped');
+            }
         });
     }
 
@@ -138,7 +152,6 @@ function butonlariBagla() {
     }
 }
 
-// EKRAN GEÇİŞLERİ
 function kelimelerMenuyeGit() {
     landingScreen.style.display = 'none';
     flashcardScreen.style.display = 'none';
@@ -423,7 +436,6 @@ function uygulamaIlerlemesiniSifirla() {
     bildirimGoster('Kart ilerlemesi sıfırlandı.');
 }
 
-// MOBİL SES MOTORU ÇÖZÜMÜ
 function mobilSesKilidiniAc() {
     if ('speechSynthesis' in window) {
         const silentUtterance = new SpeechSynthesisUtterance('');
