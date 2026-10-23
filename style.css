@@ -6,6 +6,7 @@
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -15,20 +16,22 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 15px;
+    padding: 10px;
 }
 
 #app-container {
     width: 100%;
-    max-width: 480px;
+    max-width: 420px;
     background: #ffffff;
     border-radius: 20px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    padding: 20px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
-    min-height: 580px;
+    min-height: 90vh;
+    justify-content: space-between;
     position: relative;
+    overflow: hidden;
 }
 
 /* =========================================
@@ -38,9 +41,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
     border-bottom: 1px solid #edf2f7;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .profile-info {
@@ -50,15 +53,15 @@ body {
 }
 
 .avatar img {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #3182ce;
 }
 
 .profile-texts h3 {
-    font-size: 16px;
+    font-size: 15px;
     color: #1a202c;
 }
 
@@ -66,16 +69,11 @@ body {
     background-color: #edf2f7;
     color: #4a5568;
     border: none;
-    padding: 8px 12px;
-    border-radius: 10px;
-    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
-}
-
-#btn-profil-git:hover {
-    background-color: #e2e8f0;
 }
 
 /* =========================================
@@ -85,167 +83,82 @@ body {
     background-color: #2b6cb0;
     color: white;
     text-align: center;
-    padding: 10px 15px;
-    border-radius: 10px;
-    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
     font-weight: 500;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 /* =========================================
-   3. KARŞILAMA EKRANI (ANA SAYFA)
+   3. KARŞILAMA EKRANI & MENÜLER
    ========================================= */
-#landing-screen {
+#landing-screen, #main-menu {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     flex-grow: 1;
-    text-align: center;
+    width: 100%;
 }
 
-#landing-screen h1 {
-    font-size: 26px;
+#landing-screen h1, #main-menu h1 {
+    font-size: 24px;
     color: #2b6cb0;
-    margin-bottom: 30px;
-}
-
-/* =========================================
-   4. KELİMELER KATEGORİ MENÜSÜ
-   ========================================= */
-#main-menu {
-    text-align: center;
-    flex-grow: 1;
-}
-
-#main-menu h1 {
-    font-size: 22px;
     margin-bottom: 20px;
-    color: #2d3748;
+    text-align: center;
 }
 
 .menu-stats {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    width: 100%;
+    margin-bottom: 15px;
 }
 
 .stat-box {
     background: #f7fafc;
     border: 1px solid #e2e8f0;
-    padding: 8px 14px;
-    border-radius: 10px;
-    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
     font-weight: 600;
     color: #4a5568;
 }
 
-/* BUTONLAR */
 .menu-btn {
     width: 100%;
     padding: 14px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     border: none;
     border-radius: 12px;
     background-color: #3182ce;
     color: white;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(49, 130, 206, 0.2);
-    transition: transform 0.1s, background-color 0.2s;
-}
-
-.menu-btn:hover {
-    background-color: #2b6cb0;
-}
-
-.menu-btn:active {
-    transform: scale(0.98);
+    box-shadow: 0 4px 6px rgba(49, 130, 206, 0.15);
 }
 
 .btn-sifirla {
     background-color: #e53e3e !important;
-    box-shadow: 0 4px 6px rgba(229, 62, 62, 0.2) !important;
-}
-
-.btn-sifirla:hover {
-    background-color: #c53030 !important;
 }
 
 /* =========================================
-   5. PROFİL / İSTATİSTİK EKRANI
-   ========================================= */
-#profil-screen {
-    text-align: center;
-    flex-grow: 1;
-}
-
-#profil-screen h2 {
-    font-size: 20px;
-    margin-bottom: 5px;
-}
-
-#profil-ogrenilen-sayi {
-    color: #718096;
-    font-size: 14px;
-    margin-bottom: 15px;
-}
-
-.profil-liste-kapsayici {
-    max-height: 320px;
-    overflow-y: auto;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    margin-bottom: 15px;
-}
-
-.profil-tablosu {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 14px;
-}
-
-.profil-tablosu th {
-    background-color: #f7fafc;
-    padding: 10px;
-    border-bottom: 1px solid #e2e8f0;
-    position: sticky;
-    top: 0;
-}
-
-.profil-tablosu td {
-    padding: 10px;
-    border-bottom: 1px solid #edf2f7;
-}
-
-#btn-profil-geri, #btn-geri {
-    width: 100%;
-    padding: 12px;
-    background-color: #718096;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-/* =========================================
-   6. FLASHCARD (KELİME ÇALIŞMA) EKRANI
+   4. FLASHCARD (TELEFON İÇİN DÜZELTİLDİ)
    ========================================= */
 #flashcard-screen {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
 .flashcard-container {
     perspective: 1000px;
     width: 100%;
-    height: 300px;
-    margin-bottom: 20px;
+    min-height: 340px;
+    margin-bottom: 15px;
 }
 
 .flashcard {
@@ -253,9 +166,8 @@ body {
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transition: transform 0.5s ease;
     cursor: pointer;
-    border-radius: 16px;
 }
 
 .flashcard.flipped {
@@ -264,17 +176,19 @@ body {
 
 .card-front, .card-back {
     width: 100%;
-    height: 100%;
+    min-height: 340px;
     position: absolute;
     backface-visibility: hidden;
     border-radius: 16px;
     border: 1px solid #e2e8f0;
     background: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 15px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
 }
 
 .card-back {
@@ -287,55 +201,80 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
     flex-grow: 1;
     text-align: center;
 }
 
+/* ALMANCA VE TÜRKÇE KELİME BAŞLIKLARI */
 .card-front h2, .card-back h2 {
-    font-size: 28px;
+    font-size: 24px;
     color: #1a202c;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
+    word-break: break-word;
 }
 
 .plural-text {
-    font-size: 16px;
+    font-size: 14px;
     color: #718096;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .hint {
-    font-size: 12px;
+    font-size: 11px;
     color: #a0aec0;
-    margin-top: 15px;
+    margin-top: 10px;
+}
+
+/* İSİM TEMPLATE VE ARTİKEL KAYMA ENGELİ */
+#template-isim {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 .artikel {
     font-size: 18px;
     font-weight: bold;
     color: #3182ce;
+    margin-top: 4px;
+    text-transform: lowercase;
 }
 
-/* Fiil Çekim Tablosu Tasarımı */
+/* FİİL GRİD TELEFON UYUMU */
+#template-fiil {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .fiil-grid {
     display: flex;
-    gap: 15px;
-    font-size: 13px;
-    margin-top: 8px;
-    text-align: left;
+    justify-content: center;
+    gap: 10px;
+    font-size: 12px;
+    margin-top: 6px;
     background: #ffffff;
-    padding: 10px 15px;
+    padding: 8px 10px;
     border-radius: 8px;
     border: 1px solid #edf2f7;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .zamirler {
     color: #a0aec0;
     font-weight: 600;
+    text-align: right;
 }
 
 .cekimler {
     color: #2d3748;
     font-weight: 500;
+    text-align: left;
 }
 
 .mavi-cizgi {
@@ -347,10 +286,11 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    text-align: left;
 }
 
 .gecmis-zaman .label {
-    font-size: 11px;
+    font-size: 10px;
     color: #718096;
     font-weight: 600;
 }
@@ -358,72 +298,97 @@ body {
 .past-val {
     font-weight: 600;
     color: #2b6cb0;
+    font-size: 11px;
 }
 
-/* Örnek Cümle */
+/* ÖRNEK CÜMLE TELEFON AYARI */
 #example-container {
-    margin-top: 10px;
-    padding-top: 10px;
+    margin-top: 8px;
+    padding-top: 8px;
     border-top: 1px dashed #cbd5e0;
     width: 100%;
 }
 
 .example-de {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: #2d3748;
+    line-height: 1.3;
 }
 
 .example-tr {
-    font-size: 12px;
+    font-size: 11px;
     color: #718096;
+    margin-top: 2px;
 }
 
-/* Ses Butonları */
+/* SES BUTONLARI (TELEFON İÇİN DOKUNMA ALANI BÜYÜTÜLDÜ) */
 .btn-ses {
     background: #edf2f7;
-    border: none;
-    padding: 6px 12px;
+    border: 1px solid #cbd5e0;
+    padding: 8px 14px;
     border-radius: 8px;
     font-size: 12px;
     font-weight: 600;
-    color: #4a5568;
+    color: #2d3748;
     cursor: pointer;
+    touch-action: manipulation;
 }
 
 .card-ses-buttons {
     display: flex;
     gap: 8px;
     justify-content: center;
+    width: 100%;
 }
 
-/* Alt Aksiyon Butonları */
+/* AKSİYON BUTONLARI */
 .action-buttons {
     display: flex;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .btn-bilmiyorum {
     flex: 1;
-    padding: 14px;
+    padding: 12px;
     background-color: #feebc8;
     color: #c05621;
     border: none;
-    border-radius: 12px;
-    font-size: 15px;
+    border-radius: 10px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
 }
 
 .btn-biliyorum {
     flex: 1;
-    padding: 14px;
+    padding: 12px;
     background-color: #c6f6d5;
     color: #22543d;
     border: none;
-    border-radius: 12px;
-    font-size: 15px;
+    border-radius: 10px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+}
+
+/* PROFİL VE İSTATİSTİK */
+.profil-liste-kapsayici {
+    max-height: 280px;
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.profil-tablosu {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.profil-tablosu th, .profil-tablosu td {
+    padding: 8px;
+    border-bottom: 1px solid #edf2f7;
 }
