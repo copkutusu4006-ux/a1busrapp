@@ -1,8 +1,7 @@
 // =========================================
-// Almanca Flashcard - script.js
+// Almanca Flashcard - script.js (Mobil Ses & Mobil Düzen Destekli)
 // =========================================
 
-// 1) VERİ YÜKLEME
 const STORAGE_KEY = 'almanca_flashcard_v1';
 
 let kelimeListesi = yukluVeriyiGetir();
@@ -11,7 +10,7 @@ let aktifIndex = 0;
 let aktifKategori = null;
 let mevcutVoices = [];
 
-// 2) HTML ELEMANLARI
+// HTML ELEMANLARI
 const landingScreen = document.getElementById('landing-screen');
 const mainMenu = document.getElementById('main-menu');
 const flashcardScreen = document.getElementById('flashcard-screen');
@@ -43,10 +42,6 @@ const profileHeader = document.getElementById('profile-header');
 const profilOgrenilenSayiEl = document.getElementById('profil-ogrenilen-sayi');
 const profilKelimeListesiEl = document.getElementById('profil-kelime-listesi');
 
-const btnSeslendirButonlari = document.querySelectorAll('.btn-seslendir');
-const btnOrnekOkuButonu = document.querySelector('.btn-ornek-oku');
-
-// 3) SAYFA AÇILIŞI
 init();
 
 function init() {
@@ -55,42 +50,36 @@ function init() {
     menuIstatistikleriniGuncelle();
 }
 
-// 4) EVENTLER
 function butonlariBagla() {
-    // Karşılama ekranı butonları
+    // Mobil Tarayıcılarda Ses Motoru Kilidini Açma (Dokunma Olayı)
+    document.body.addEventListener('touchstart', mobilSesKilidiniAc, { once: true });
+    document.body.addEventListener('click', mobilSesKilidiniAc, { once: true });
+
     document.getElementById('btn-goto-kelimeler').addEventListener('click', kelimelerMenuyeGit);
     document.getElementById('btn-goto-okuma').addEventListener('click', () => {
         bildirimGoster('Okuma kısmı yakında eklenecektir!');
     });
 
-    // Kelimeler menüsünden ana sayfaya dönüş
     document.getElementById('btn-ana-sayfaya-don').addEventListener('click', anaSayfayaDon);
 
-    // Kategori butonları (İsimler, Fiiller, Karışık)
     document.getElementById('btn-isimler').addEventListener('click', () => oyunuBaslat('isim'));
     document.getElementById('btn-fiiller').addEventListener('click', () => oyunuBaslat('fiil'));
     document.getElementById('btn-karisik').addEventListener('click', () => oyunuBaslat('karisik'));
 
-    // Flashcard ekranından kelimeler menüsüne dönüş
     document.getElementById('btn-geri').addEventListener('click', kelimelerMenuyeGit);
 
-    if (btnSeslendirButonlari.length) {
-        btnSeslendirButonlari.forEach((buton) => {
-            ['pointerdown', 'mousedown', 'touchstart'].forEach(eventName => {
-                buton.addEventListener(eventName, (e) => { e.stopPropagation(); }, { passive: true });
-            });
-            buton.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                kelimeyiOku();
-            });
+    // Ses Butonları Olayları
+    const btnSeslendirButonlari = document.querySelectorAll('.btn-seslendir');
+    btnSeslendirButonlari.forEach((buton) => {
+        buton.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            kelimeyiOku();
         });
-    }
+    });
 
+    const btnOrnekOkuButonu = document.querySelector('.btn-ornek-oku');
     if (btnOrnekOkuButonu) {
-        ['pointerdown', 'mousedown', 'touchstart'].forEach(eventName => {
-            btnOrnekOkuButonu.addEventListener(eventName, (e) => { e.stopPropagation(); }, { passive: true });
-        });
         btnOrnekOkuButonu.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -154,7 +143,7 @@ function kelimelerMenuyeGit() {
     landingScreen.style.display = 'none';
     flashcardScreen.style.display = 'none';
     profilScreen.style.display = 'none';
-    mainMenu.style.display = 'block';
+    mainMenu.style.display = 'flex';
     if (profileHeader) profileHeader.style.display = 'flex';
     menuIstatistikleriniGuncelle();
 }
@@ -166,13 +155,11 @@ function anaSayfayaDon() {
     landingScreen.style.display = 'flex';
 }
 
-// 5) OYUNU BAŞLAT
 function oyunuBaslat(secilenKategori) {
     aktifKategori = secilenKategori;
     yeniTurHazirla();
 }
 
-// 6) YENİ TUR HAZIRLA
 function yeniTurHazirla() {
     let kategoriKelimeleri = kategoriyeGoreListeGetir(aktifKategori);
 
@@ -189,7 +176,7 @@ function yeniTurHazirla() {
         kategoriKelimeleri.forEach(kelime => { kelime.durum = 'bilmiyorum'; });
         verileriKaydet();
         menuIstatistikleriniGuncelle();
-        bildirimGoster('Bu kategorideki tüm kelimeler bitti. Liste baştan başlatıldı.');
+        bildirimGoster('Tüm kelimeler bitti, liste sıfırlandı.');
 
         kategoriKelimeleri = kategoriyeGoreListeGetir(aktifKategori);
         bilinmeyenler = kategoriKelimeleri.filter(k => k.durum !== 'biliyorum');
@@ -205,33 +192,17 @@ function yeniTurHazirla() {
     aktifKelimeler = [...secilenBilinmeyenler, ...secilenBilinenler];
     karistir(aktifKelimeler);
 
-    if (aktifKelimeler.length === 0) {
-        bildirimGoster('Gösterilecek kelime bulunamadı.');
-        kelimelerMenuyeGit();
-        return;
-    }
-
     aktifIndex = 0;
-
     mainMenu.style.display = 'none';
-    flashcardScreen.style.display = 'block';
+    flashcardScreen.style.display = 'flex';
 
     kartiGoster();
 }
 
-// 7) KART GÖSTER
 function kartiGoster() {
-    if (aktifKelimeler.length === 0) {
-        bildirimGoster('Gösterilecek kelime bulunamadı.');
-        kelimelerMenuyeGit();
-        return;
-    }
-
-    if (aktifIndex >= aktifKelimeler.length) {
+    if (aktifKelimeler.length === 0 || aktifIndex >= aktifKelimeler.length) {
         bildirimGoster('Seans bitti!');
-        setTimeout(() => {
-            kelimelerMenuyeGit();
-        }, 700);
+        setTimeout(() => { kelimelerMenuyeGit(); }, 700);
         return;
     }
 
@@ -262,7 +233,6 @@ function kartiGoster() {
     ornekCumleyiDoldur(guncelKelime);
 }
 
-// 8) İSİM KARTI
 function isimKartiniDoldur(kelime) {
     templateIsim.style.display = 'flex';
     templateFiil.style.display = 'none';
@@ -278,7 +248,6 @@ function isimKartiniDoldur(kelime) {
     }
 }
 
-// 9) FİİL KARTI
 function fiilKartiniDoldur(kelime) {
     templateIsim.style.display = 'none';
     templateFiil.style.display = 'flex';
@@ -296,7 +265,6 @@ function fiilKartiniDoldur(kelime) {
     `;
 }
 
-// 10) ÖRNEK CÜMLE
 function ornekCumleyiDoldur(kelime) {
     const ornekVar = kelime.ornek_cumle && kelime.ornek_cumle.trim() !== '';
     const ornekTrVar = kelime.ornek_cumle_turkce && kelime.ornek_cumle_turkce.trim() !== '';
@@ -320,7 +288,6 @@ function ornekCumleyiDoldur(kelime) {
     }
 }
 
-// 11) CEVAPLA
 function kelimeyiCevapla(yeniDurum) {
     if (!aktifKelimeler.length || aktifIndex >= aktifKelimeler.length) return;
 
@@ -350,21 +317,14 @@ function menuIstatistikleriniGuncelle() {
     const toplam = kelimeListesi.length;
     const biliyorumSayisi = kelimeListesi.filter(k => k.durum === 'biliyorum').length;
 
-    if (toplamKelimeEl) {
-        toplamKelimeEl.innerText = `Toplam: ${toplam}`;
-    }
-
-    if (biliyorumSayacEl) {
-        biliyorumSayacEl.innerText = `${biliyorumSayisi}/${toplam}`;
-    }
+    if (toplamKelimeEl) toplamKelimeEl.innerText = `Toplam: ${toplam}`;
+    if (biliyorumSayacEl) biliyorumSayacEl.innerText = `${biliyorumSayisi}/${toplam}`;
 }
 
-// 14) VERİ KAYDET
 function verileriKaydet() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(kelimeListesi));
 }
 
-// 15) VERİ YÜKLE VE GÜNCELLE
 function yukluVeriyiGetir() {
     try {
         const kayitliVeri = localStorage.getItem(STORAGE_KEY);
@@ -379,7 +339,6 @@ function yukluVeriyiGetir() {
 
         anaListe.forEach(anaKelime => {
             const kayitliKelime = temizKayitliVeri.find(k => k.id === anaKelime.id);
-
             if (!kayitliKelime) {
                 temizKayitliVeri.push(anaKelime);
             } else {
@@ -405,20 +364,15 @@ function yukluVeriyiGetir() {
 
         return temizKayitliVeri;
     } catch (error) {
-        console.error('LocalStorage verisi okunamadı:', error);
         return baslangicKelimeleri.filter(k => k && k.id).map(k => ({ ...k }));
     }
 }
 
-// 16) KATEGORİ FİLTRESİ
 function kategoriyeGoreListeGetir(kategori) {
-    if (kategori === 'karisik') {
-        return [...kelimeListesi];
-    }
+    if (kategori === 'karisik') return [...kelimeListesi];
     return kelimeListesi.filter(k => k.kategori === kategori);
 }
 
-// 17) KARIŞTIR
 function karistir(dizi) {
     for (let i = dizi.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -427,16 +381,10 @@ function karistir(dizi) {
     return dizi;
 }
 
-// 18) BİLDİRİM
 function bildirimGoster(mesaj) {
-    if (!customAlertEl) {
-        alert(mesaj);
-        return;
-    }
-
+    if (!customAlertEl) return;
     customAlertEl.innerText = mesaj;
     customAlertEl.style.display = 'block';
-
     clearTimeout(customAlertEl._timeoutId);
     customAlertEl._timeoutId = setTimeout(() => {
         customAlertEl.style.display = 'none';
@@ -445,7 +393,6 @@ function bildirimGoster(mesaj) {
 
 function profilIstatistikleriniGuncelle() {
     if (!profilOgrenilenSayiEl || !profilKelimeListesiEl) return;
-
     const ogrenilenKelimeler = kelimeListesi.filter(k => k.ogrenildi);
     profilOgrenilenSayiEl.innerText = `${ogrenilenKelimeler.length} Kelime Öğrenildi`;
     profilKelimeListesiEl.innerHTML = '';
@@ -470,30 +417,30 @@ function uygulamaIlerlemesiniSifirla() {
     verileriKaydet();
     menuIstatistikleriniGuncelle();
     profilIstatistikleriniGuncelle();
-
-    aktifKelimeler = [];
-    aktifIndex = 0;
-    aktifKategori = null;
-
-    if (cardInner) cardInner.classList.remove('flipped');
-
-    profilScreen.style.display = 'none';
+    landingScreen.style.display = 'flex';
     flashcardScreen.style.display = 'none';
     mainMenu.style.display = 'none';
-    landingScreen.style.display = 'flex';
-
-    if (profileHeader) profileHeader.style.display = 'flex';
-
-    bildirimGoster('Kart ilerlemesi sıfırlandı. Öğrenilen kelimeler korunuyor.');
+    bildirimGoster('Kart ilerlemesi sıfırlandı.');
 }
 
-// SES MOTORU
+// MOBİL SES MOTORU ÇÖZÜMÜ
+function mobilSesKilidiniAc() {
+    if ('speechSynthesis' in window) {
+        const silentUtterance = new SpeechSynthesisUtterance('');
+        silentUtterance.volume = 0;
+        window.speechSynthesis.speak(silentUtterance);
+        sesMotorunuHazirla();
+    }
+}
+
 function sesMotorunuHazirla() {
     if (!('speechSynthesis' in window)) return;
     mevcutVoices = window.speechSynthesis.getVoices();
-    window.speechSynthesis.onvoiceschanged = () => {
-        mevcutVoices = window.speechSynthesis.getVoices();
-    };
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = () => {
+            mevcutVoices = window.speechSynthesis.getVoices();
+        };
+    }
 }
 
 function kelimeyiOku() {
@@ -513,6 +460,7 @@ function kelimeyiOku() {
     kelimeSesi.lang = 'de-DE';
     kelimeSesi.rate = 0.7;
 
+    mevcutVoices = window.speechSynthesis.getVoices();
     const almancaVoice = mevcutVoices.find(v => v.lang === 'de-DE') || mevcutVoices.find(v => v.lang?.startsWith('de'));
     if (almancaVoice) kelimeSesi.voice = almancaVoice;
 
@@ -536,6 +484,7 @@ function ornekCumleyiOku() {
     cumleSesi.lang = 'de-DE';
     cumleSesi.rate = 0.65;
 
+    mevcutVoices = window.speechSynthesis.getVoices();
     const almancaVoice = mevcutVoices.find(v => v.lang === 'de-DE') || mevcutVoices.find(v => v.lang?.startsWith('de'));
     if (almancaVoice) cumleSesi.voice = almancaVoice;
 
